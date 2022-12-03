@@ -1,5 +1,5 @@
-https://console.cloud.google.com/bigquery?sq=554179630584:0cbc68ac19b643d5b12242a35ee90c21
-[public link^]
+-- https://console.cloud.google.com/bigquery?sq=554179630584:0cbc68ac19b643d5b12242a35ee90c21
+-- [public link^]
 ------------------------------------------------------------------------------------------
 
 WITH transact_ecom AS (
@@ -14,7 +14,7 @@ WITH transact_ecom AS (
   WHERE NOT geoNetwork_country = "(not set)" AND NOT channelGrouping = "(Other)" 
   GROUP BY channelGrouping, crt.date, geoNetwork_country
 )
-
+-- created by Difagama
 SELECT * FROM transact_ecom 
 ORDER BY 
   channelGrouping ASC,
