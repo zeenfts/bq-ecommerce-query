@@ -9,13 +9,26 @@ WITH transact_ecom AS (
       STRUCT(crt.date, geoNetwork_country AS country)
       ORDER BY crt.date ASC, geoNetwork_country ASC
     ) level, 
-    SUM(totals_transactions) total_transactions, 
+    SUM(totals_transactions) transact_per_level, 
   FROM `data-to-insights.ecommerce.rev_transactions` crt
   WHERE NOT geoNetwork_country = "(not set)" AND NOT channelGrouping = "(Other)" 
   GROUP BY channelGrouping, crt.date, geoNetwork_country
+), full_total_per_channel AS(
+  SELECT
+    channelGrouping, 
+    SUM(totals_transactions) total_transact_per_channel
+  FROM `data-to-insights.ecommerce.rev_transactions` 
+  GROUP BY channelGrouping
 )
 -- created by Difagama
-SELECT * FROM transact_ecom 
-ORDER BY 
-  channelGrouping ASC,
-  total_transactions DESC
+SELECT 
+  total_transact_per_channel,
+  te.channelGrouping,
+  level,
+  transact_per_level
+FROM transact_ecom te
+INNER JOIN full_total_per_channel ftc
+ON te.channelGrouping = ftc.channelGrouping
+ORDER BY
+  total_transact_per_channel DESC,
+  transact_per_level DESC
