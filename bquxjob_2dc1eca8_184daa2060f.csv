@@ -1,4 +1,4 @@
-total_transact_per_channel,channelGrouping,level,transact_per_level
+total_transact_per_channel,channel,level,transact_per_level_channel
 30149,Referral,"{
   ""level"": [{
     ""date"": ""20170531"",
